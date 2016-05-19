@@ -17,11 +17,96 @@
                 
             }
             
+            body{
+                height: 100%;
+                width: 100%;
+                background-color: white;
+                margin: 0px;
+                padding: 0px;
+            }
+            
+            h1{
+                font-family: 'Century Gothic';
+                font-size: 50px;
+                font-style: normal;
+                font-variant: normal;
+                font-weight: 500;
+                text-align: center;
+                padding: 30px;
+                margin: 0px;
+                background-color: #4C86A9;
+                color: white;
+            }
+            
+            
+            #nombre {
+                 display: inline;
+                 width: 20%;
+                 margin: 0%; 
+            }
+            
+            #time {
+                width: 20%;
+                margin: 0%;
+            }
+            
+            .tabla_nombre_piscina{
+                display: inline-block;
+                width: 18%; 
+                height: 80px;
+            }
+            
+            #nombre_piscina{
+                /*Fuentes*/
+                font-family: 'Century Gothic';
+                font-size: 23px;
+                font-style: normal;
+                font-variant: normal;
+                font-weight: bold;
+                line-height: 23px;
+                /*text-align: center;*/
+                padding-left: 200px;
+            }
+            
+            #fecha_med{
+                /*Fuentes*/
+                font-family: 'Century Gothic';
+                font-size: 23px;
+                font-style: normal;
+                font-variant: normal;
+                /*font-weight: 500;*/
+                line-height: 15px;
+                /*text-align: center;*/
+            }
+            
+            .class fila{
+                width: 10%;
+            }
+            
+            table{
+                height: 80px;
+            }
+            
+            td{
+                padding: 15px;
+            }
+            
+            #lista_piscinas{
+                border-color: black;
+                border-width: 2px;
+            }
+            
+            #div_titulo{
+                margin: 10px;
+                
+            }
+            
         </style>
         
     </head>
     <body>
-        <div><h1 id="titulo">Estado Piscinas</h1></div>
+        <div id="div_titulo"><h1 id="titulo">Estado Piscinas</h1></div>
+        <script type="text/javascript" src="date-es-EC.js" ></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
         <script>
             
@@ -31,29 +116,7 @@
           //Obtenemos lo que nos mando el servidor
           
           $.get("/Telcometria/AppCamaronera", { bd_cliente: "waspmote_data", ed: "tmp" } , function(data, status){
-              //data contiene la informacion
-              /*var nombreFormulario = "formulario_usuario";
-             
-              //Creamos una form (para pedir la página de estadisticas
-              var formulario = document.createElement("FORM");
-              formulario.setAttribute("method", "get");
-              formulario.setAttribute("action", "/Domotica/Estadisticas");
-              formulario.setAttribute("id", nombreFormulario);
-              
-              var divFormulario = document.getElementById("div_formulario");
-              divFormulario.appendChild(formulario);
-              
-              for(i = 0; i < data.length; i++){
-                  var boton = document.createElement("BUTTON");
-                  var texto = document.createTextNode(data[i]);
-                  
-                    boton.appendChild(texto);
-                    boton.setAttribute("class", "botones_clientes");
-                    boton.setAttribute("value", data[i]);
-                    boton.setAttribute("form", nombreFormulario);
-                    formulario.appendChild(boton);
-              }*/
-              
+                
               
               for(i = 0; i < data.length; i++){
                   var lista = document.getElementById("lista_piscinas");
@@ -67,11 +130,43 @@
                   
                   //Hasta aqui ya tenemos los elementos
                   //Añadimos los nombres de las motas.
-                  var nombrePiscina = document.createElement("SPAN");
+                  var nombrePiscina = document.createElement("TABLE");
                   nombrePiscina.width = anchoElementoLista;
-                  nombrePiscina.setAttribute("class", "nombre_piscina");
-                  nombrePiscina.innerHTML = data[i].id_wasp;
+                  nombrePiscina.setAttribute("class", "tabla_nombre_piscina");
                   elementoListaPiscinas.appendChild(nombrePiscina);
+                  
+                  
+                  var filaNombre = document.createElement("TR");
+                  filaNombre.setAttribute("class", "fila");
+                  filaNombre.setAttribute("id", "nombre_piscina");
+                  var filaFecha = document.createElement("TR");
+                  filaFecha.setAttribute("class", "fila");
+                   filaFecha.setAttribute("id", "fecha_med");
+                  nombrePiscina.appendChild(filaNombre);
+                  nombrePiscina.appendChild(filaFecha);
+                  
+                  //Creamos parrafos dentro del SPAN
+                  var col1 = document.createElement("TD");
+                  col1.setAttribute("id", "nombre" );
+                  col1.innerHTML = data[i].id_wasp;
+                  
+                  var col2 = document.createElement("TD");
+                  col2.setAttribute("id", "time" );
+                  
+                  
+                  var fechaStr = data[i].timestamp;
+                  fechaStr = fechaStr.slice(0,-2);
+                  var fecha = Date.parse(fechaStr);
+                  
+                  col2.innerHTML = fecha.toString('d MMM yyyy, HH:mm:ss');                  
+                  filaNombre.appendChild(col1);
+                  filaFecha.appendChild(col2);
+                  
+                  
+                  //nombrePiscina.innerHTML = data[i].id_wasp;//.concat("\n", data[i].timestamp);
+                  
+                  
+                  
                   
                   //Añadimos los CANVAS para los colores
                   var numeroMediciones = data[i].numero_mediciones;
@@ -92,7 +187,7 @@
                         ctx.beginPath();
                         ctx.rect(0, 0, canvasMedicion.width, canvasMedicion.height);
                         
-                        
+                
                         
                         
                         if(j == 0){  //DO
@@ -144,16 +239,6 @@
                         }
                         
                   }
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                  
-                  
-                  
                   //title.innerHTML = data[i].id_wasp;
               }
               
@@ -169,7 +254,11 @@
         </script>
         
         <!--Aqui viene la lista de las piscinas-->
-        <div id="lista_piscinas"></div>
+        <div id="lista_piscinas">
+            
+            <!--span><p>psicina</p><p>fecha</p></span-->
+            
+        </div>
         
     </body>
 </html>
