@@ -10,99 +10,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
-        <style>
-            .canvas_medicion{
-                padding: 0px;
-                border-style: solid;        /*por ahora*/
-                
-            }
-            
-            body{
-                height: 100%;
-                width: 100%;
-                background-color: white;
-                margin: 0px;
-                padding: 0px;
-            }
-            
-            h1{
-                font-family: 'Century Gothic';
-                font-size: 50px;
-                font-style: normal;
-                font-variant: normal;
-                font-weight: 500;
-                text-align: center;
-                padding: 30px;
-                margin: 0px;
-                background-color: #4C86A9;
-                color: white;
-            }
-            
-            
-            #nombre {
-                 display: inline;
-                 width: 20%;
-                 margin: 0%; 
-            }
-            
-            #time {
-                width: 20%;
-                margin: 0%;
-            }
-            
-            .tabla_nombre_piscina{
-                display: inline-block;
-                width: 18%; 
-                height: 80px;
-            }
-            
-            #nombre_piscina{
-                /*Fuentes*/
-                font-family: 'Century Gothic';
-                font-size: 23px;
-                font-style: normal;
-                font-variant: normal;
-                font-weight: bold;
-                line-height: 23px;
-                /*text-align: center;*/
-                padding-left: 200px;
-            }
-            
-            #fecha_med{
-                /*Fuentes*/
-                font-family: 'Century Gothic';
-                font-size: 23px;
-                font-style: normal;
-                font-variant: normal;
-                /*font-weight: 500;*/
-                line-height: 15px;
-                /*text-align: center;*/
-            }
-            
-            .class fila{
-                width: 10%;
-            }
-            
-            table{
-                height: 80px;
-            }
-            
-            td{
-                padding: 15px;
-            }
-            
-            #lista_piscinas{
-                border-color: black;
-                border-width: 2px;
-            }
-            
-            #div_titulo{
-                margin: 10px;
-                
-            }
-            
-        </style>
-        
+        <link rel="stylesheet" type="text/css" href="estilo.css">        
     </head>
     <body>
         <div id="div_titulo"><h1 id="titulo">Estado Piscinas</h1></div>
@@ -114,6 +22,7 @@
           var mio;
           
           //Obtenemos lo que nos mando el servidor
+          
           
           function obtenerYPresentarDatos(){
             $.get("/Telcometria/AppCamaronera", { bd_cliente: "waspmote_data", ed: "tmp" } , function(data, status){
@@ -127,7 +36,7 @@
                     lista.appendChild(elementoListaPiscinas);
 
                     var w = window.innerWidth; 
-                    var anchoElementoLista = w/5;
+                    var anchoElementoLista = w/5;           //TODO CAMBIAR a numeroMediciones
 
                     //Hasta aqui ya tenemos los elementos
                     //Añadimos los nombres de las motas.
@@ -171,6 +80,7 @@
 
                           var canvasMedicion = document.createElement("CANVAS");
                           canvasMedicion.setAttribute("class", "canvas_medicion");
+                          
                           canvasMedicion.width = anchoElementoLista;
                           canvasMedicion.height = 100;
 
@@ -183,8 +93,19 @@
 
 
 
-
+                          var id_med = data[i].id_wasp;
+                          id_med = id_med.concat("-");
+                          
+                          /*gernemos el comando onclick con los parámetros necesarios*/
+                          var comando = "obtenerGrafico(\""
+                          comando = comando.concat(data[i].id_wasp);
+                          comando = comando.concat("\",\"");
+                          comando = comando.concat()
+                          
                           if(j == 0){  //DO
+                              id_med = id_med.concat("DO");
+                              canvasMedicion.setAttribute("id", id_med);
+                              comando = comando.concat("DO\")");
                               ctx.fillStyle = "blue";
                               ctx.fill();
                               ctx.fillStyle = "white";
@@ -196,6 +117,9 @@
                               ctx.fillText(data[i].DO, ubicacionXTexto, 80);
                           }
                           else if(j == 1){ //pH
+                              id_med = id_med.concat("PH");
+                              canvasMedicion.setAttribute("id", id_med);
+                              comando = comando.concat("PH\")");
                               ctx.fillStyle = "green";
                               ctx.fill();
                               ctx.fillStyle = "white";
@@ -207,6 +131,9 @@
                               ctx.fillText(data[i].TCA, ubicacionXTexto, 80);
                           }
                           else if(j == 2){ //TCA
+                              id_med = id_med.concat("TCA");
+                              canvasMedicion.setAttribute("id", id_med);
+                              comando = comando.concat("TCA\")");
                               ctx.fillStyle = "red";
                               ctx.fill();
                               ctx.fillStyle = "white";
@@ -218,6 +145,9 @@
                               ctx.fillText(data[i].PH, ubicacionXTexto, 80);
                           }
                           else if(j == 3){ //BAT
+                              id_med = id_med.concat("BAT");
+                              canvasMedicion.setAttribute("id", id_med);
+                              comando = comando.concat("BAT\")");
                               ctx.fillStyle = "black";
                               ctx.fill();
                               ctx.fillStyle = "white";
@@ -231,12 +161,34 @@
                           else if(j == 5){
                               //salinidad
                           }
+                          
+                          //Agregamos el envento onClick al CANVAS para que el usuerio pueda hacer click
+                          //y se generen los gráficos.
+                          canvasMedicion.setAttribute("onclick", comando)
+                          //canvasMedicion.setAttribute("href", "/Telcometria/GraficoCamaronera");
 
                     }
                     //title.innerHTML = data[i].id_wasp;
                 }
 
             }, "json");
+          }
+          
+          /*Función que invocara la generación del gráfico de la medicion*/
+          function obtenerGrafico(id_wasp, medicion){
+              window.location.replace("/Telcometria/GraficoCamaronera");
+              
+              //TODO://       
+               /*$.get("/Telcometria/GraficoCamaronera", { id_wasp: id_wasp, medicion: medicion } , function(data, status){
+                   var hola = "hola";
+                   
+                   
+                   var i = 10;
+                   i++;
+                   i++;
+                   i++;
+                   
+               }, "html");*/
           }
           
           /*Funcion para redibujar la tabla*/

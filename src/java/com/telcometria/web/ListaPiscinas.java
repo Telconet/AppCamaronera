@@ -10,7 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -22,7 +22,7 @@ import org.json.JSONObject;
  *
  * @author Eduardo Murillo
  */
-public class listapiscinas extends HttpServlet {
+public class ListaPiscinas extends HttpServlet {
     
     
     @Override
@@ -34,7 +34,9 @@ public class listapiscinas extends HttpServlet {
         String bd_cliente = request.getParameter("bd_cliente");
         
         
-        ServletConfig config = getServletConfig();
+        ServletContext config = request.getSession().getServletContext();
+        
+        
         String tabla_datos_actuales = config.getInitParameter("tablaDatosActual");
         
         BaseDeDatos bd = new BaseDeDatos(BaseDeDatos.MYSQL_DB, "log_bd", config.getInitParameter("IP"),
@@ -112,7 +114,7 @@ public class listapiscinas extends HttpServlet {
             
         } 
         catch (SQLException ex) {
-            Logger.getLogger(listapiscinas.class.getName()).log(Level.SEVERE, null, ex);           
+            Logger.getLogger(ListaPiscinas.class.getName()).log(Level.SEVERE, null, ex);           
         }
         finally{
            
