@@ -188,6 +188,10 @@
         <param-name>tablaDatosActual</param-name>
         <param-value>tabla_camaronera_prod_test_actual</param-value>
     </context-param>
+    <context-param>
+        <param-name>tablaDatos</param-name>
+        <param-value>tabla_camaronera_prod_test</param-value>
+    </context-param>
     <init-param>
         <param-name>usuario</param-name>
         <param-value>waspmote</param-value>

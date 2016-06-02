@@ -22,8 +22,19 @@ public class GraficoCamaronera extends HttpServlet{
     public void doGet(HttpServletRequest request,
                        HttpServletResponse response) throws IOException, ServletException{
         
+        
+        //String url = request.get
+        
+        String id_wasp = request.getParameter("id_wasp");
+        String medicion = request.getParameter("medicion");
+        String bd_cliente = request.getParameter("bd_cliente");
+        
+        request.setAttribute("id_wasp", id_wasp);
+        request.setAttribute("medicion", medicion);
+        request.setAttribute("bd_cliente", bd_cliente);
+        
         //Mandamos la página...
-        RequestDispatcher vista = request.getRequestDispatcher("grafico.html");
+        RequestDispatcher vista = request.getRequestDispatcher("grafico.jsp");
         vista.forward(request, response);
 
     }

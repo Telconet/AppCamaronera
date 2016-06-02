@@ -20,12 +20,13 @@
             
           var respuesta;
           var mio;
+          var user = "waspmote_data";
           
           //Obtenemos lo que nos mando el servidor
           
           
           function obtenerYPresentarDatos(){
-            $.get("/Telcometria/AppCamaronera", { bd_cliente: "waspmote_data", ed: "tmp" } , function(data, status){
+            $.get("/Telcometria/AppCamaronera", { bd_cliente: user, ed: "tmp" } , function(data, status){
 
 
                 for(i = 0; i < data.length; i++){
@@ -67,7 +68,7 @@
                     fechaStr = fechaStr.slice(0,-2);
                     var fecha = Date.parse(fechaStr);
 
-                    col2.innerHTML = fecha.toString('d MMM yyyy, HH:mm:ss');                  
+                    col2.innerHTML = fecha.toString('d MMM, HH:mm');                  
                     filaNombre.appendChild(col1);
                     filaFecha.appendChild(col2);
 
@@ -176,19 +177,16 @@
           
           /*Función que invocara la generación del gráfico de la medicion*/
           function obtenerGrafico(id_wasp, medicion){
-              window.location.replace("/Telcometria/GraficoCamaronera");
               
-              //TODO://       
-               /*$.get("/Telcometria/GraficoCamaronera", { id_wasp: id_wasp, medicion: medicion } , function(data, status){
-                   var hola = "hola";
-                   
-                   
-                   var i = 10;
-                   i++;
-                   i++;
-                   i++;
-                   
-               }, "html");*/
+              var url = "/Telcometria/GraficoCamaronera?id_wasp=";
+              url = url.concat(id_wasp);
+              url = url.concat("&medicion=");
+              url = url.concat(medicion);
+              url = url.concat("&bd_cliente=");
+              url = url.concat(user);
+              
+              window.location.replace(url);
+             
           }
           
           /*Funcion para redibujar la tabla*/
