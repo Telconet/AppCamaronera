@@ -1,7 +1,7 @@
 <%-- 
     Document   : index
     Created on : May 16, 2016, 12:12:02 PM
-    Author     : Eduardo
+    Author     : Eduardo Murillo
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -24,12 +24,14 @@
           
           //Obtenemos lo que nos mando el servidor
           
-          
+          //AppCamaronera/ para servidor local (sin s).
           function obtenerYPresentarDatos(){
-            $.get("/Telcometria/AppCamaronera", { bd_cliente: user, ed: "tmp" } , function(data, status){
+            $.get("/AppCamaronera/AppCamaronera", { bd_cliente: user, ed: "tmp" } , function(data, status){
 
 
                 for(i = 0; i < data.length; i++){
+                    
+                    var numeroMediciones = data[i].numero_mediciones;
                     var lista = document.getElementById("lista_piscinas");
                     var elementoListaPiscinas = document.createElement("DIV");
                     elementoListaPiscinas.setAttribute("class", "elemento_lista");
@@ -37,7 +39,7 @@
                     lista.appendChild(elementoListaPiscinas);
 
                     var w = window.innerWidth; 
-                    var anchoElementoLista = w/5;           //TODO CAMBIAR a numeroMediciones
+                    var anchoElementoLista = Math.floor((w/(numeroMediciones + 1))) - 12 ;           //-6 de los bordes
 
                     //Hasta aqui ya tenemos los elementos
                     //Añadimos los nombres de las motas.
@@ -64,18 +66,16 @@
                     col2.setAttribute("id", "time" );
 
 
-                    var fechaStr = data[i].timestamp;
+                    /*var fechaStr = data[i].timestamp;
                     fechaStr = fechaStr.slice(0,-2);
-                    var fecha = Date.parse(fechaStr);
+                    var fecha = Date.parse(fechaStr);*/
 
-                    col2.innerHTML = fecha.toString('d MMM, HH:mm');                  
+                    col2.innerHTML = data[i].timestamp; //fecha.toString('d MMM, HH:mm');                  
                     filaNombre.appendChild(col1);
                     filaFecha.appendChild(col2);
 
                     //Añadimos los CANVAS para los colores
-                    var numeroMediciones = data[i].numero_mediciones;
-
-
+                    
 
                     for(j = 0; j < numeroMediciones; j++){
 
@@ -117,10 +117,10 @@
                               var ubicacionXTexto = (canvasMedicion.width/2) + (canvasMedicion.width/2 - tamanaTexto)/2;
                               ctx.fillText(data[i].DO, ubicacionXTexto, 80);
                           }
-                          else if(j == 1){ //pH
-                              id_med = id_med.concat("PH");
+                          else if(j == 1){ //TCA
+                              id_med = id_med.concat("TCA");
                               canvasMedicion.setAttribute("id", id_med);
-                              comando = comando.concat("PH\")");
+                              comando = comando.concat("TCA\")");
                               ctx.fillStyle = "green";
                               ctx.fill();
                               ctx.fillStyle = "white";
@@ -131,10 +131,10 @@
                               var ubicacionXTexto = (canvasMedicion.width/2) + (canvasMedicion.width/2 - tamanaTexto)/2;
                               ctx.fillText(data[i].TCA, ubicacionXTexto, 80);
                           }
-                          else if(j == 2){ //TCA
-                              id_med = id_med.concat("TCA");
+                          else if(j == 2){ //PH
+                              id_med = id_med.concat("PH");
                               canvasMedicion.setAttribute("id", id_med);
-                              comando = comando.concat("TCA\")");
+                              comando = comando.concat("PH\")");
                               ctx.fillStyle = "red";
                               ctx.fill();
                               ctx.fillStyle = "white";
@@ -145,7 +145,7 @@
                               var ubicacionXTexto = (canvasMedicion.width/2) + (canvasMedicion.width/2 - tamanaTexto)/2;
                               ctx.fillText(data[i].PH, ubicacionXTexto, 80);
                           }
-                          else if(j == 3){ //BAT
+                          else if(j == 4){ //BAT
                               id_med = id_med.concat("BAT");
                               canvasMedicion.setAttribute("id", id_med);
                               comando = comando.concat("BAT\")");
@@ -159,8 +159,19 @@
                               var ubicacionXTexto = (canvasMedicion.width/2) + (canvasMedicion.width/2 - tamanaTexto)/2;
                               ctx.fillText(data[i].BAT, ubicacionXTexto, 80);
                           }
-                          else if(j == 5){
-                              //salinidad
+                          else if(j == 3){
+                              id_med = id_med.concat("COND");
+                              canvasMedicion.setAttribute("id", id_med);
+                              comando = comando.concat("COND\")");
+                              ctx.fillStyle = "orange";
+                              ctx.fill();
+                              ctx.fillStyle = "white";
+                              ctx.font = "30px Arial";
+                              ctx.fillText("Salinidad (mS/cm)",10,40);
+                              ctx.font = "38px Arial";
+                              var tamanaTexto = ctx.measureText(data[i].COND).width;
+                              var ubicacionXTexto = (canvasMedicion.width/2) + (canvasMedicion.width/2 - tamanaTexto)/2;
+                              ctx.fillText(data[i].COND, ubicacionXTexto, 80);
                           }
                           
                           //Agregamos el envento onClick al CANVAS para que el usuerio pueda hacer click
@@ -178,7 +189,7 @@
           /*Función que invocara la generación del gráfico de la medicion*/
           function obtenerGrafico(id_wasp, medicion){
               
-              var url = "/Telcometria/GraficoCamaronera?id_wasp=";
+              var url = "/AppCamaroneras/GraficoCamaronera?id_wasp=";
               url = url.concat(id_wasp);
               url = url.concat("&medicion=");
               url = url.concat(medicion);

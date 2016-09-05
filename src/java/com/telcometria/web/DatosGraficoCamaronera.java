@@ -81,19 +81,19 @@ public class DatosGraficoCamaronera extends HttpServlet{
             
             //Configuramos las opciones
             if(medicion.equals("DO")){
-                titulo = "Oxigeno Disuelto";
+                titulo = "Oxigeno Disuelto - "  + id_wasp;
                 tituloEjeVertical = "Oxigeno Disuelto (%)";
             }
             else if(medicion.equals("PH")){
-                titulo = "Acidez (pH)";
+                titulo = "Acidez (pH) - " + id_wasp;
                 tituloEjeVertical = "pH";
             }
             else if(medicion.equals("TCA")){
-                titulo = "Temperatura";
-                tituloEjeVertical = "Temperatura (°C)";
+                titulo = "Temperatura - " + id_wasp;
+                tituloEjeVertical = "Temperatura (grados C)";
             }
             else if(medicion.equals("BAT")){
-                titulo = "Bateria";
+                titulo = "Bateria - " + id_wasp;
                 tituloEjeVertical = "Nivel de Bateria (%)";
             }
             

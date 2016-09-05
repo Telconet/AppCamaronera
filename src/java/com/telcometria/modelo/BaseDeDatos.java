@@ -85,12 +85,17 @@ public class BaseDeDatos {
 
             //Creamos la conexion
             this.conexion = DriverManager.getConnection(url.toString(), usuario, clave);
-            
+       
             //
             if(this.conexion != null){
+                System.out.println("Conectado a BD");
                 return 0;
+                
             }
-            else return -1;
+            else{
+                System.out.println("NO Conectado a BD");
+                return -1;
+            }
 
         }
         catch(SQLException e){

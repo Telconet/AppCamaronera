@@ -43,7 +43,7 @@ and open the template in the editor.
           function generarGrafico(){
               
               //TODO://       
-               $.get("/Telcometria/DatosGraficoCamaronera", { id_wasp: this.id_wasp, medicion: this.medicion, bd_cliente: this.user } , function(data, status){
+               $.get("/AppCamaroneras/DatosGraficoCamaronera", { id_wasp: this.id_wasp, medicion: this.medicion, bd_cliente: this.user } , function(data, status){
                    
                    var chart = new google.visualization.LineChart(document.getElementById('grafico'));
                    
@@ -54,7 +54,7 @@ and open the template in the editor.
                    data.options.chartArea.height = '75%';
                    data.options.chartArea.height = '80%';
                    
-                   data.options.linewitdh = 0.75;
+                   data.options.lineWidth = 3.8;
                    
                   
 
@@ -66,16 +66,10 @@ and open the template in the editor.
                    }
                    else if(medicion == 'PH'){
                        data.options.colors = ['#FF0000'];
-                       
                    }
-                   else if(medicion == 'BAT'){
+                   else if( medicion == 'BAT'){
                        data.options.colors = ['#000000'];
-                   }
-                   
-                   
-  
-                   
-                   
+                   }                   
                    
                     chart.draw(tablaDatos, data.options);
                }, "json");
@@ -85,6 +79,24 @@ and open the template in the editor.
             google.charts.load('current', {packages: ['corechart', 'line']});
             google.charts.setOnLoadCallback(generarGrafico);
             //generarGrafico();
+            
+            /*Configuramos el intermalo de refresco de la página*/
+            function startInterval() {
+
+                  setInterval("location.reload(true);" ,intervaloRefreshaPagina);           //Funcion para recargar y redibujar el gráfico
+            }
+
+
+            /*var intervaloRefreshaPagina = 60000;    //60 segundos.
+            var primeraVez = 0;
+
+            if(primeraVez == 0){
+                window.onload = startInterval;
+                primeraVez++;
+            }
+            else{
+                window.onload = startInterval;
+            }*/
             
         </script>
         <div id="grafico" class="grafico_linea"></div>        

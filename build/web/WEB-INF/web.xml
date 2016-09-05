@@ -3,142 +3,7 @@
     <servlet>
         <servlet-name>AppCamaronera</servlet-name>
         <servlet-class>com.telcometria.web.ListaPiscinas</servlet-class>
-        <init-param>
-            <param-name>MaxTCA</param-name>
-            <param-value>45.0</param-value>
-        </init-param>
-        <init-param>
-            <param-name>MaxTCAcamaronera</param-name>
-            <param-value>100.0</param-value>
-        </init-param>
-        <init-param>
-            <param-name>MaxHUMA</param-name>
-            <param-value>100.0</param-value>
-        </init-param>
-        <init-param>
-            <param-name>MaxDUST</param-name>
-            <param-value>0.7</param-value>
-        </init-param>
-        <init-param>
-            <param-name>MaxMCP</param-name>
-            <param-value>100.0</param-value>
-        </init-param>
-        <init-param>
-            <param-name>MaxLUM</param-name>
-            <param-value>100.0</param-value>
-        </init-param>
-        <init-param>
-            <param-name>MaxBAT</param-name>
-            <param-value>100.0</param-value>
-        </init-param>
-        <init-param>
-            <param-name>MaxCO2</param-name>
-            <param-value>2000</param-value>
-        </init-param>
-        <init-param>
-            <param-name>MaxUS</param-name>
-            <param-value>20.0</param-value>
-        </init-param>
-        <init-param>
-            <param-name>MaxDO</param-name>
-            <param-value>100.0</param-value>
-        </init-param>
-        <init-param>
-            <param-name>MaxPH</param-name>
-            <param-value>14.0</param-value>
-        </init-param>
-        <init-param>
-            <param-name>MinDO</param-name>
-            <param-value>0.0</param-value>
-        </init-param>
-        <init-param>
-            <param-name>MinPH</param-name>
-            <param-value>0.0</param-value>
-        </init-param>
-        <init-param>
-            <param-name>MinTCA</param-name>
-            <param-value>0.0</param-value>
-        </init-param>
-        <init-param>
-            <param-name>MinHUMA</param-name>
-            <param-value>0.0</param-value>
-        </init-param>
-        <init-param>
-            <param-name>MinDUST</param-name>
-            <param-value>0.0</param-value>
-        </init-param>
-        <init-param>
-            <param-name>MinMCP</param-name>
-            <param-value>50.0</param-value>
-        </init-param>
-        <init-param>
-            <param-name>MinLUM</param-name>
-            <param-value>0.0</param-value>
-        </init-param>
-        <init-param>
-            <param-name>MinBAT</param-name>
-            <param-value>0.0</param-value>
-        </init-param>
-        <init-param>
-            <param-name>MinCO2</param-name>
-            <param-value>0</param-value>
-        </init-param>
-        <init-param>
-            <param-name>MaxCO2</param-name>
-            <param-value>2000</param-value>
-        </init-param>
-        <init-param>
-            <param-name>MinUS</param-name>
-            <param-value>0.0</param-value>
-        </init-param>
-        <init-param>
-            <param-name>profundidad_seco</param-name>
-            <param-value>167.78</param-value>
-        </init-param>
-        <init-param>
-            <param-name>unidadesPH</param-name>
-            <param-value/>
-        </init-param>
-        <init-param>
-            <param-name>unidadesDO</param-name>
-            <param-value>%</param-value>
-        </init-param>
-        <init-param>
-            <param-name>unidadesTCA</param-name>
-            <param-value>° C</param-value>
-        </init-param>
-        <init-param>
-            <param-name>unidadesTCA</param-name>
-            <param-value>° C</param-value>
-        </init-param>
-        <init-param>
-            <param-name>unidadesHUMA</param-name>
-            <param-value>% HR</param-value>
-        </init-param>
-        <init-param>
-            <param-name>unidadesDUST</param-name>
-            <param-value>mg/m3</param-value>
-        </init-param>
-        <init-param>
-            <param-name>unidadesMCP</param-name>
-            <param-value>dB</param-value>
-        </init-param>
-        <init-param>
-            <param-name>unidadesLUM</param-name>
-            <param-value>%</param-value>
-        </init-param>
-        <init-param>
-            <param-name>unidadesBAT</param-name>
-            <param-value>%</param-value>
-        </init-param>
-        <init-param>
-            <param-name>unidadesCO2</param-name>
-            <param-value>ppm</param-value>
-        </init-param>
-        <init-param>
-            <param-name>unidadesUS</param-name>
-            <param-value>cm</param-value>
-        </init-param>
+        
     </servlet>
     <servlet-mapping>
         <servlet-name>AppCamaronera</servlet-name>
@@ -152,8 +17,6 @@
         <servlet-name>GraficoCamaronera</servlet-name>
         <url-pattern>/GraficoCamaronera</url-pattern>
     </servlet-mapping>
-    
-    
     <servlet>
         <servlet-name>DatosGraficoCamaronera</servlet-name>
         <servlet-class>com.telcometria.web.DatosGraficoCamaronera</servlet-class>
@@ -192,28 +55,5 @@
         <param-name>tablaDatos</param-name>
         <param-value>tabla_camaronera_prod_test</param-value>
     </context-param>
-    <init-param>
-        <param-name>usuario</param-name>
-        <param-value>waspmote</param-value>
-    </init-param>
-    <init-param>
-        <param-name>clave</param-name>
-        <param-value>waspmote</param-value>
-    </init-param>
-    <init-param>
-        <param-name>puerto</param-name>
-        <param-value>3306</param-value>
-    </init-param>
-    <init-param>
-        <param-name>BD</param-name>
-        <param-value>waspmote_data</param-value>
-    </init-param>
-    <init-param>
-        <param-name>IP</param-name>
-        <param-value>172.24.4.71</param-value>
-    </init-param>
-    <init-param>
-        <param-name>tablaDatosActual</param-name>
-        <param-value>tabla_camaronera_prod_test_actual</param-value>
-    </init-param>
+
 </web-app>

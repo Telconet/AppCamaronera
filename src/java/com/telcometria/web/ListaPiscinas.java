@@ -8,6 +8,9 @@ import com.telcometria.modelo.BaseDeDatos;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletContext;
@@ -33,7 +36,6 @@ public class ListaPiscinas extends HttpServlet {
         
         String bd_cliente = request.getParameter("bd_cliente");
         
-        
         ServletContext config = request.getSession().getServletContext();
         
         
@@ -45,27 +47,39 @@ public class ListaPiscinas extends HttpServlet {
                                                                          Integer.parseInt(config.getInitParameter("puerto")),
                                                                          "0",
                                                                          bd_cliente);
-        
+        //http://localhost:8084/AppCamaronera/AppCamaronera para server local
         bd.conectar();
         
         
         //TODO: leer datos de la BD
         String consultaDatos = "SELECT * FROM " + tabla_datos_actuales + " ORDER BY id_wasp ASC, sensor ASC";
         String numerofilas = "SELECT COUNT(*) FROM " + tabla_datos_actuales; 
+        
+        System.out.println(config.getInitParameter("IP"));
+        System.out.println(config.getInitParameter("usuario"));
+        System.out.println(config.getInitParameter("clave"));
+        System.out.println( Integer.parseInt(config.getInitParameter("puerto")));
+        System.out.println(bd_cliente);         //null???
+        
        
         
         
         ResultSet resultado = bd.ejecutarConsulta(consultaDatos);
         
         
+        
+        
+        
         JSONArray arregloJSON = new JSONArray();
         
         try {
             int res  = 0;
-            int numeroMediciones = 4; //BAT, timestamp, 
+            int numeroMediciones = 5; //BAT, timestamp, 
             //Las mediciones estan ordenadas por id_wasp, y luego sensor
             int i = 0;
             JSONObject mota = null;
+            
+            
             while(resultado.next()){
                 
                 //TODO: aramamos el JSON
@@ -74,9 +88,25 @@ public class ListaPiscinas extends HttpServlet {
                 if(i % numeroMediciones == 0){          //cada 4 mediciones
                      mota = new JSONObject();
                      mota.put("id_wasp", resultado.getString("id_wasp"));
-                     mota.put("timestamp", resultado.getString("timestamp"));
+                     
                      mota.put("numero_mediciones", numeroMediciones);
                      arregloJSON.put(mota);
+                     
+                     
+                     
+                     String ts_str = resultado.getString("timestamp");
+                     ts_str = ts_str.substring(0, ts_str.length()-2);
+                     
+                     SimpleDateFormat sdf3 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                     Date fechaHora = null;
+                    try {
+                        fechaHora = sdf3.parse(ts_str);
+                    } catch (ParseException ex) {
+                        Logger.getLogger(ListaPiscinas.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                              
+                     SimpleDateFormat sdf4 = new SimpleDateFormat("d MMM, HH:mm");
+                     mota.put("timestamp", sdf4.format(fechaHora));
                 }
                 
                 String sensor = resultado.getString("sensor");
@@ -93,6 +123,9 @@ public class ListaPiscinas extends HttpServlet {
                 }
                 else if(sensor.equals("BAT")){
                     mota.put("BAT", valor);  
+                }
+                else if(sensor.equals("COND")){
+                    mota.put("COND", valor);  
                 }
                 i++;
                 
