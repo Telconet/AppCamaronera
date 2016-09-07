@@ -43,7 +43,7 @@ and open the template in the editor.
           function generarGrafico(){
               
               //TODO://       
-               $.get("/AppCamaroneras/DatosGraficoCamaronera", { id_wasp: this.id_wasp, medicion: this.medicion, bd_cliente: this.user } , function(data, status){
+               $.get("/AppCamaronera/DatosGraficoCamaronera", { id_wasp: this.id_wasp, medicion: this.medicion, bd_cliente: this.user } , function(data, status){
                    
                    var chart = new google.visualization.LineChart(document.getElementById('grafico'));
                    

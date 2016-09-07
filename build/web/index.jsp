@@ -14,8 +14,35 @@
     </head>
     <body>
         <div id="div_titulo"><h1 id="titulo">Estado Piscinas</h1></div>
+        <div id="barra_herramientas"><button id="Reportes" class="botones_herramientas" onmouseover="cambiarBoton(this)" onmouseout="restaurarBoton(this)">Estado</button><button id="Reportes" class="botones_herramientas" onmouseover="cambiarBoton(this)" onmouseout="restaurarBoton(this)">Reportes</button><button id="Reportes" class="botones_herramientas" onmouseover="cambiarBoton(this)" onmouseout="restaurarBoton(this)">Gráficos</button></div>
         <script type="text/javascript" src="date-es-EC.js" ></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+        <script>
+            /**
+             *Funciones para cambio de color
+             */
+            
+            //Sobre la pagina
+            var botonAnteriorSeleccionado = null;       //que boton está seleccionado
+            
+            function cambiarBoton(boton){
+                
+                boton.style.color = "#EB5E28";
+                //boton.style.borderColor = "#EB5E28";
+                //boton.style.borderBottom = "solid #EB5E28";
+                //boton.style.borderWidth = "3px";
+                boton.style.cursor = "pointer"
+            }
+            
+            function restaurarBoton(boton){
+                
+                boton.style.color = "white";
+               // boton.style.borderBottom = "none";
+                boton.style.cursor = "default";
+            }
+            
+        
+        </script>
         <script>
             
           var respuesta;
@@ -23,6 +50,9 @@
           var user = "waspmote_data";
           
           //Obtenemos lo que nos mando el servidor
+          
+          
+     
           
           //AppCamaronera/ para servidor local (sin s).
           function obtenerYPresentarDatos(){

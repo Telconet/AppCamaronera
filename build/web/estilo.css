@@ -10,9 +10,41 @@
 #div_titulo{
     margin-left: 0px;
     margin-right: 0px;
+    margin-bottom: 0px;
+    margin-top: 0px;
+    border-bottom: solid   #EB5E28;
+    border-width: 2px;
+}
+
+#barra_herramientas{
+    margin-left: 0px;
+    margin-right: 0px;
     margin-bottom: 10px;
     margin-top: 0px;
+    height: 50px;
+    background-color: #403D39;
+    
+    border-bottom: solid   #EB5E28;
+    border-width: 2px;
 }
+
+.botones_herramientas{
+    height: 50px;
+    background-color: #403d39;
+    color: white;
+    width: 113px;
+    height: 50px;
+    border: none;
+    
+    font-family: "Segoe UI";
+    font-size: 21px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 600;
+    text-align: center;
+    margin-left: 50px;
+}
+
 
 
 .canvas_medicion{
@@ -25,13 +57,13 @@
 body{
     height: 100%;
     width: 100%;
-    background-color: white;
+    background-color: #fffcf2;
     margin: 0px;
     padding: 0px;
 }
 
 h1{
-    font-family: 'Century Gothic';
+    font-family: "Segoe UI";
     font-size: 50px;
     font-style: normal;
     font-variant: normal;
@@ -39,8 +71,8 @@ h1{
     text-align: center;
     padding: 30px;
     margin: 0px;
-    background-color: #4C86A9;
-    color: white;
+    background-color: #CCC5B9;
+    color: #252422;
 }
 
 
@@ -63,7 +95,7 @@ h1{
 
 #nombre_piscina{
     /*Fuentes*/
-    font-family: 'Century Gothic';
+    font-family: "Segoe UI";
     font-size: 23px;
     font-style: normal;
     font-variant: normal;
@@ -75,7 +107,7 @@ h1{
 
 #fecha_med{
     /*Fuentes*/
-    font-family: 'Century Gothic';
+    font-family: "Segoe UI";
     font-size: 23px;
     font-style: normal;
     font-variant: normal;
