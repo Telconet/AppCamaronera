@@ -14,7 +14,7 @@
     </head>
     <body>
         <div id="div_titulo"><h1 id="titulo">Estado Piscinas</h1></div>
-        <div id="barra_herramientas"><button id="Reportes" class="botones_herramientas" onmouseover="cambiarBoton(this)" onmouseout="restaurarBoton(this)">Estado</button><button id="Reportes" class="botones_herramientas" onmouseover="cambiarBoton(this)" onmouseout="restaurarBoton(this)">Reportes</button><button id="Reportes" class="botones_herramientas" onmouseover="cambiarBoton(this)" onmouseout="restaurarBoton(this)">Gráficos</button></div>
+        <div id="barra_herramientas"><button id="Reportes" class="botones_herramientas" onclick="recargarPaginaEstado(this)" onmouseover="cambiarBoton(this)" onmouseout="restaurarBoton(this)">Estado</button><button id="Reportes" class="botones_herramientas" onmouseover="cambiarBoton(this)" onmouseout="restaurarBoton(this)">Reportes</button><button id="Reportes" class="botones_herramientas" onmouseover="cambiarBoton(this)" onmouseout="restaurarBoton(this)">Gráficos</button></div>
         <script type="text/javascript" src="date-es-EC.js" ></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
         <script>
@@ -50,7 +50,18 @@
           var user = "waspmote_data";
           
           //Obtenemos lo que nos mando el servidor
-          
+          function recargarPaginaEstado(){
+              
+              //Remover tabla
+              var nodo = document.getElementById("lista_piscinas");
+              
+              while(nodo.hasChildNodes()){    
+                  nodo.removeChild(nodo.lastChild);
+              }
+              
+              //Pedir datos neuvamente
+              obtenerYPresentarDatos();
+          }
           
      
           
@@ -219,7 +230,8 @@
           /*Función que invocara la generación del gráfico de la medicion*/
           function obtenerGrafico(id_wasp, medicion){
               
-              var url = "/AppCamaroneras/GraficoCamaronera?id_wasp=";
+              //AJAX>>
+              var url = "/AppCamaronera/GraficoCamaronera?id_wasp=";
               url = url.concat(id_wasp);
               url = url.concat("&medicion=");
               url = url.concat(medicion);
@@ -264,15 +276,6 @@
           //Aqui llamamos y recargamos
           //obtenerYPresentarDatos();
           
-          
-          
-           
-          
-          
-          
-          
-            
-            
         </script>
         
         <!--Aqui viene la lista de las piscinas-->

@@ -18,7 +18,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.apache.commons.net.ntp.TimeStamp;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -61,6 +60,13 @@ public class DatosGraficoCamaronera extends HttpServlet{
             SimpleDateFormat hace24Horas = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             
             String ahoraStr = ahora.format(cal.getTime());
+            
+            
+            
+            //Para prueba
+            //cal.set(2016, 4, 14, 15, 3);
+           //String ahoraStr = ahora.format(cal.getTime());
+            
             cal.add(Calendar.HOUR_OF_DAY, -24);
             String hace24HorasStr = hace24Horas.format(cal.getTime());
             
