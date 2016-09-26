@@ -35,11 +35,15 @@ public class DatosGraficoCamaronera extends HttpServlet{
             String bd_cliente = null;
             String id_wasp = null;
             String medicion = null;
-                    
+            String fechaHoraInicio = null;
+            String fechaHoraFin = null;
             
             bd_cliente = request.getParameter("bd_cliente");
             id_wasp =  request.getParameter("id_wasp");
             medicion = request.getParameter("medicion");
+            fechaHoraInicio = request.getParameter("fechaHoraInicio");
+            fechaHoraFin = request.getParameter("fechaHoraFin");
+            
                     
                      
              ServletContext config = request.getSession().getServletContext();
@@ -53,26 +57,37 @@ public class DatosGraficoCamaronera extends HttpServlet{
             
             bd.conectar();
             
-            Calendar cal = Calendar.getInstance();
+            
             SimpleDateFormat año = new SimpleDateFormat("yyyy");
             
             SimpleDateFormat ahora = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            SimpleDateFormat hace24Horas = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            SimpleDateFormat antes = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             
-            String ahoraStr = ahora.format(cal.getTime());
+            Calendar cal = Calendar.getInstance();
+            String ahoraStr = null;
+            String antesStr = null;
             
-            
+            if(fechaHoraFin == null || fechaHoraInicio == null){
+                //No nos mandaron la fecha, entonces hacemos solo 24 horas atras
+                 
+                 ahoraStr = ahora.format(cal.getTime());
+                 cal.add(Calendar.HOUR_OF_DAY, -24);
+                 antesStr = antes.format(cal.getTime());
+            }
+            else{
+                //Cogemos fecha/hora que nos mandaron
+                ahoraStr = fechaHoraFin;
+                antesStr = fechaHoraInicio;
+                        
+            }
             
             //Para prueba
             //cal.set(2016, 4, 14, 15, 3);
            //String ahoraStr = ahora.format(cal.getTime());
             
-            cal.add(Calendar.HOUR_OF_DAY, -24);
-            String hace24HorasStr = hace24Horas.format(cal.getTime());
-            
             String nombreTabla = config.getInitParameter("tablaDatos") + "_" + año.format(cal.getTime());
             
-            String consulta = "SELECT * FROM " + nombreTabla + " where timestamp between \'" + hace24HorasStr  + "\' and \'" +  ahoraStr + "\' and sensor = \'" + medicion +   "\' order by timestamp ASC";
+            String consulta = "SELECT * FROM " + nombreTabla + " where timestamp between \'" + antesStr  + "\' and \'" +  ahoraStr + "\' and sensor = \'" + medicion +   "\' order by timestamp ASC";
             
             System.out.println(consulta);
              

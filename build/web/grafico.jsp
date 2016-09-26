@@ -23,7 +23,7 @@ and open the template in the editor.
     </head>
     <body>
         <div id="div_titulo"><h1 id="titulo">Gráfico Piscina</h1></div>  
-        <div id="barra_herramientas"><button id="Reportes" class="botones_herramientas" onclick="recargarEstado(this)" onmouseover="cambiarBoton(this)" onmouseout="restaurarBoton(this)">Estado</button><button id="Reportes" class="botones_herramientas" onmouseover="cambiarBoton(this)" onmouseout="restaurarBoton(this)">Reportes</button><button id="Reportes" class="botones_herramientas" onmouseover="cambiarBoton(this)" onmouseout="restaurarBoton(this)">Gráficos</button></div>
+        <div id="barra_herramientas"><button id="Reportes" class="botones_herramientas" onclick="recargarEstado(this)" onmouseover="cambiarBoton(this)" onmouseout="restaurarBoton(this)">Estado</button><button id="Reportes" class="botones_herramientas" onmouseover="cambiarBoton(this)" onmouseout="restaurarBoton(this)">Reportes</button><button id="Graficos" class="botones_herramientas" onclick="obtenerGraficoHistorico(this)" onmouseover="cambiarBoton(this)" onmouseout="restaurarBoton(this)">Gráficos</button></div>
         <script type="text/javascript">
             
           var medicion;
@@ -55,6 +55,22 @@ and open the template in the editor.
                // boton.style.borderBottom = "none";
                 boton.style.cursor = "default";
             }
+            
+            
+            /* Carga la página de grafico Historico*/
+          function obtenerGraficoHistorico(){
+              
+              //AJAX>>
+              var url = "/AppCamaronera/GraficoHistorico?";
+              /*url = url.concat(id_wasp);
+              url = url.concat("&medicion=");
+              url = url.concat(medicion);*/
+              url = url.concat("bd_cliente=");
+              url = url.concat(user);
+              
+              window.location.replace(url);
+             
+          }
             
           function recargarEstado(){
               window.location.href = "/AppCamaronera/";

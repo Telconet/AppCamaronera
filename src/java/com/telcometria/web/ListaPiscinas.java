@@ -5,6 +5,8 @@
 package com.telcometria.web;
 
 import com.telcometria.modelo.BaseDeDatos;
+import com.telcometria.modelo.TablaCorreccionSalinidad;
+import com.telcometria.modelo.TablaOxigenoSaturacion;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -33,7 +35,13 @@ public class ListaPiscinas extends HttpServlet {
                        HttpServletResponse response) throws IOException, ServletException
     {
         //Este servlet leera los datos de telemetria de las camaroneras.
+        ServletContext contexto = request.getServletContext();
         
+        TablaOxigenoSaturacion tablaOxigeno = (TablaOxigenoSaturacion)contexto.getAttribute("tablaOxigeno");
+        TablaCorreccionSalinidad tablaSalinidad = (TablaCorreccionSalinidad)contexto.getAttribute("tablaSalinidad");
+           
+        
+        //Obtenemos ciertos parametros
         String bd_cliente = request.getParameter("bd_cliente");
         
         ServletContext config = request.getSession().getServletContext();
@@ -66,26 +74,24 @@ public class ListaPiscinas extends HttpServlet {
         
         ResultSet resultado = bd.ejecutarConsulta(consultaDatos);
         
-        
-        
-        
-        
         JSONArray arregloJSON = new JSONArray();
         
         try {
-            int res  = 0;
-            int numeroMediciones = 5; //BAT, timestamp, 
+            //int res  = 0;
+            int numeroMediciones = 5; //BAT, DO, COND, PH, TEMP, DOMGL
             //Las mediciones estan ordenadas por id_wasp, y luego sensor
             int i = 0;
             JSONObject mota = null;
             
+            String temperaturaStr = "";
+            String salinidadStr = "";
+            String oxigenoSaturaciónStr = "";
+            
+         
             
             while(resultado.next()){
-                
-                //TODO: aramamos el JSON
-                //Sacamos mediciones por ID_WASP
-                
-                if(i % numeroMediciones == 0){          //cada 4 mediciones
+                               
+                if(i == 0){          //cada 5 mediciones
                      mota = new JSONObject();
                      mota.put("id_wasp", resultado.getString("id_wasp"));
                      
@@ -109,33 +115,65 @@ public class ListaPiscinas extends HttpServlet {
                      mota.put("timestamp", sdf4.format(fechaHora));
                 }
                 
+                
+                //Obtenemos valores sensores...      
+                
                 String sensor = resultado.getString("sensor");
                 String valor = resultado.getString("value");
 
                 if(sensor.contains("PH")){
-                    mota.put("PH", valor);               
+                    mota.put("PH", valor);     
+                    i++;
                 }
                 else if(sensor.contains("DO")){
                     mota.put("DO", valor);
+                    oxigenoSaturaciónStr = valor;
+                    i++;
                 }
                 else if(sensor.contains("TCA")){
                     mota.put("TCA", valor);  
+                    temperaturaStr = valor;
+                    i++;
                 }
                 else if(sensor.equals("BAT")){
-                    mota.put("BAT", valor);  
+                    mota.put("BAT", valor);
+                    i++;
                 }
                 else if(sensor.equals("COND")){
                     mota.put("COND", valor);  
+                    salinidadStr = valor;
+                    i++;
                 }
-                i++;
                 
-                
-                res++;
-                           
+                if(i == numeroMediciones ){
+                    //Ya tenemos la ultima medicion
+                    i = 0;
+                    //Calculo de MG/L
+                    //Añadimos la medición de O2 en mg/L (calculo)...
+                    double saturaciónOxigeno = Double.parseDouble(oxigenoSaturaciónStr);
+                    double temperatura = Double.parseDouble(temperaturaStr);
+                    double salinidad = Double.parseDouble(salinidadStr);
+
+                    double oxigenoMgL = 0.0;
+
+                    //Sacamos el oxigeno de saturacion
+                    double oxigeno100Porciento = tablaOxigeno.obtenerOxigenoSaturacion(temperatura, 760);      //A 1 atm
+
+                    //Calculamos...
+                    oxigenoMgL = (saturaciónOxigeno * oxigeno100Porciento) / 100.0;
+
+                    //Ahora corregimos con la salinidad...
+                    double factorCorrecionSalinidad = tablaSalinidad.obtenerCorrecionSalinidad(temperatura, salinidad);
+
+                    oxigenoMgL = oxigenoMgL * factorCorrecionSalinidad;
+
+                    mota.put("DOMGL", oxigenoMgL);
+                    
+                }    
             }
             resultado.close();
             bd.cerrar();
-            
+
             //Serializamos el arreglo de datos
             String salida = arregloJSON.toString();
             response.setContentLength(salida.length());

@@ -3,7 +3,6 @@
     <servlet>
         <servlet-name>AppCamaronera</servlet-name>
         <servlet-class>com.telcometria.web.ListaPiscinas</servlet-class>
-        
     </servlet>
     <servlet-mapping>
         <servlet-name>AppCamaronera</servlet-name>
@@ -24,6 +23,15 @@
     <servlet-mapping>
         <servlet-name>DatosGraficoCamaronera</servlet-name>
         <url-pattern>/DatosGraficoCamaronera</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>GraficoHistorico</servlet-name>
+        <servlet-class>com.telcometria.web.GraficoHistorico</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GraficoHistorico</servlet-name>
+        <url-pattern>/GraficoHistorico</url-pattern>
     </servlet-mapping>
     
     
@@ -55,5 +63,12 @@
         <param-name>tablaDatos</param-name>
         <param-value>tabla_camaronera_prod_test</param-value>
     </context-param>
+    
+    
+    <listener>
+	<listener-class>
+             com.telcometria.web.ListenerContextoAppCamaronera
+        </listener-class>
+   </listener>
 
 </web-app>

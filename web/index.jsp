@@ -14,7 +14,7 @@
     </head>
     <body>
         <div id="div_titulo"><h1 id="titulo">Estado Piscinas</h1></div>
-        <div id="barra_herramientas"><button id="Reportes" class="botones_herramientas" onclick="recargarPaginaEstado(this)" onmouseover="cambiarBoton(this)" onmouseout="restaurarBoton(this)">Estado</button><button id="Reportes" class="botones_herramientas" onmouseover="cambiarBoton(this)" onmouseout="restaurarBoton(this)">Reportes</button><button id="Reportes" class="botones_herramientas" onmouseover="cambiarBoton(this)" onmouseout="restaurarBoton(this)">Gráficos</button></div>
+        <div id="barra_herramientas"><button id="Reportes" class="botones_herramientas" onclick="recargarPaginaEstado(this)" onmouseover="cambiarBoton(this)" onmouseout="restaurarBoton(this)">Estado</button><button id="Reportes" class="botones_herramientas" onmouseover="cambiarBoton(this)" onmouseout="restaurarBoton(this)">Reportes</button><button id="Graficos" class="botones_herramientas" onclick="obtenerGraficoHistorico(this)" onmouseover="cambiarBoton(this)" onmouseout="restaurarBoton(this)">Gráficos</button></div>
         <script type="text/javascript" src="date-es-EC.js" ></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
         <script>
@@ -236,6 +236,21 @@
               url = url.concat("&medicion=");
               url = url.concat(medicion);
               url = url.concat("&bd_cliente=");
+              url = url.concat(user);
+              
+              window.location.replace(url);
+             
+          }
+          
+          /* Carga la página de grafico Historico*/
+          function obtenerGraficoHistorico(){
+              
+              //AJAX>>
+              var url = "/AppCamaronera/GraficoHistorico?";
+              /*url = url.concat(id_wasp);
+              url = url.concat("&medicion=");
+              url = url.concat(medicion);*/
+              url = url.concat("bd_cliente=");
               url = url.concat(user);
               
               window.location.replace(url);

@@ -81,8 +81,8 @@ and open the template in the editor.
           /*Función que invocara la el json con los datos y generará el gráfico de la medicion*/
           function generarGrafico(){
               
-              //TODO://       
-               $.get("/AppCamaronera/DatosGraficoCamaronera", { id_wasp: this.id_wasp, medicion: this.medicion, bd_cliente: this.user } , function(data, status){
+              //Mandamos fecha/hora inicio y fecha/hora fin
+               $.get("/AppCamaronera/DatosGraficoCamaronera", { id_wasp: this.id_wasp, medicion: this.medicion, bd_cliente: this.user, horaFechaInicio: "", horaFechaFin: "" } , function(data, status){
                    
                    //Verificamos si tenemos datos
                    if(data.data.length == 0){
@@ -187,31 +187,17 @@ and open the template in the editor.
                     chart.draw(tablaDatos, data.options);
                }, "json");
           }
-          
-             //cargamos la versión más actual del API  
-            google.charts.load('current', {packages: ['corechart', 'line']});
-            google.charts.setOnLoadCallback(generarGrafico);
-            //generarGrafico();
-            
-            /*Configuramos el intermalo de refresco de la página*/
-            function startInterval() {
-
-                  setInterval("location.reload(true);" ,intervaloRefreshaPagina);           //Funcion para recargar y redibujar el gráfico
-            }
-
-
-            /*var intervaloRefreshaPagina = 60000;    //60 segundos.
-            var primeraVez = 0;
-
-            if(primeraVez == 0){
-                window.onload = startInterval;
-                primeraVez++;
-            }
-            else{
-                window.onload = startInterval;
-            }*/
-            
+                      
         </script>
-        <div id="grafico" class="grafico_linea"></div>        
+        <!--div style="width: 100%; overflow: hidden;">
+            <div id="calendarios_div" style="width: 600px; height: 600px; float: left;"></div>
+            <div id="grafico" class="grafico_linea" style="margin-left: 620px;"></div> 
+        </div-->
+        <div style="width: 100%; display: table;">
+            <div style="display: table-row">
+                <div style="width: 600px; display: table-cell;"> Left </div>
+                <div style="display: table-cell;"> Right </div>
+            </div>
+        </div>
     </body>
 </html>
