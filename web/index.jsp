@@ -14,7 +14,7 @@
     </head>
     <body>
         <div id="div_titulo"><h1 id="titulo">Estado Piscinas</h1></div>
-        <div id="barra_herramientas"><button id="Reportes" class="botones_herramientas" onclick="recargarPaginaEstado(this)" onmouseover="cambiarBoton(this)" onmouseout="restaurarBoton(this)">Estado</button><button id="Reportes" class="botones_herramientas" onmouseover="cambiarBoton(this)" onmouseout="restaurarBoton(this)">Reportes</button><button id="Graficos" class="botones_herramientas" onclick="obtenerGraficoHistorico(this)" onmouseover="cambiarBoton(this)" onmouseout="restaurarBoton(this)">Gráficos</button></div>
+        <div id="barra_herramientas"><button id="Reportes" class="botones_herramientas" onclick="recargarPaginaEstado(this)" onmouseover="cambiarBoton(this)" onmouseout="restaurarBoton(this)">Estado</button><!--button id="Reportes" class="botones_herramientas" onmouseover="cambiarBoton(this)" onmouseout="restaurarBoton(this)">Reportes</button><button id="Graficos" class="botones_herramientas" onclick="obtenerGraficoHistorico(this)" onmouseover="cambiarBoton(this)" onmouseout="restaurarBoton(this)">Gráficos</button--></div>
         <script type="text/javascript" src="date-es-EC.js" ></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
         <script>
@@ -72,7 +72,7 @@
 
                 for(i = 0; i < data.length; i++){
                     
-                    var numeroMediciones = data[i].numero_mediciones;
+                    var numeroMediciones = data[i].numero_mediciones + 1 ;      //Hayu que sumar O2 
                     var lista = document.getElementById("lista_piscinas");
                     var elementoListaPiscinas = document.createElement("DIV");
                     elementoListaPiscinas.setAttribute("class", "elemento_lista");
@@ -80,7 +80,7 @@
                     lista.appendChild(elementoListaPiscinas);
 
                     var w = window.innerWidth; 
-                    var anchoElementoLista = Math.floor((w/(numeroMediciones + 1))) - 12 ;           //-6 de los bordes
+                    var anchoElementoLista = Math.floor((w/(numeroMediciones + 1))) - 24 ;           //-6 de los bordes
 
                     //Hasta aqui ya tenemos los elementos
                     //Añadimos los nombres de las motas.
@@ -117,7 +117,8 @@
 
                     //Añadimos los CANVAS para los colores
                     
-
+                    var tamanoTextoMedicion = "33px Arial";
+                    var tamanoTextoNombreMedicion = "28px Arial";   
                     for(j = 0; j < numeroMediciones; j++){
 
                           var canvasMedicion = document.createElement("CANVAS");
@@ -143,7 +144,7 @@
                           comando = comando.concat(data[i].id_wasp);
                           comando = comando.concat("\",\"");
                           comando = comando.concat()
-                          
+                                                    
                           if(j == 0){  //DO
                               id_med = id_med.concat("DO");
                               canvasMedicion.setAttribute("id", id_med);
@@ -151,68 +152,82 @@
                               ctx.fillStyle = "blue";
                               ctx.fill();
                               ctx.fillStyle = "white";
-                              ctx.font = "30px Arial";
+                              ctx.font = tamanoTextoNombreMedicion;
                               ctx.fillText("Oxígeno (%)",10,40);
-                              ctx.font = "38px Arial";
+                              ctx.font = tamanoTextoMedicion;
                               var tamanaTexto = ctx.measureText(data[i].DO).width;
                               var ubicacionXTexto = (canvasMedicion.width/2) + (canvasMedicion.width/2 - tamanaTexto)/2;
                               ctx.fillText(data[i].DO, ubicacionXTexto, 80);
                           }
-                          else if(j == 1){ //TCA
+                          else if(j == 2){ //TCA
                               id_med = id_med.concat("TCA");
                               canvasMedicion.setAttribute("id", id_med);
                               comando = comando.concat("TCA\")");
                               ctx.fillStyle = "green";
                               ctx.fill();
                               ctx.fillStyle = "white";
-                              ctx.font = "30px Arial";
+                              ctx.font = tamanoTextoNombreMedicion;
                               ctx.fillText("T (°C)",10,40);
-                              ctx.font = "38px Arial";
+                              ctx.font = tamanoTextoMedicion;
                               var tamanaTexto = ctx.measureText(data[i].TCA).width;
                               var ubicacionXTexto = (canvasMedicion.width/2) + (canvasMedicion.width/2 - tamanaTexto)/2;
                               ctx.fillText(data[i].TCA, ubicacionXTexto, 80);
                           }
-                          else if(j == 2){ //PH
+                          else if(j == 3){ //PH
                               id_med = id_med.concat("PH");
                               canvasMedicion.setAttribute("id", id_med);
                               comando = comando.concat("PH\")");
                               ctx.fillStyle = "red";
                               ctx.fill();
                               ctx.fillStyle = "white";
-                              ctx.font = "30px Arial";
+                              ctx.font = tamanoTextoNombreMedicion;
                               ctx.fillText("pH",10,40);
-                              ctx.font = "38px Arial";
+                              ctx.font = tamanoTextoMedicion;
                               var tamanaTexto = ctx.measureText(data[i].PH).width;
                               var ubicacionXTexto = (canvasMedicion.width/2) + (canvasMedicion.width/2 - tamanaTexto)/2;
                               ctx.fillText(data[i].PH, ubicacionXTexto, 80);
                           }
-                          else if(j == 4){ //BAT
+                          else if(j == 5){ //BAT
                               id_med = id_med.concat("BAT");
                               canvasMedicion.setAttribute("id", id_med);
                               comando = comando.concat("BAT\")");
                               ctx.fillStyle = "black";
                               ctx.fill();
                               ctx.fillStyle = "white";
-                              ctx.font = "30px Arial";
+                              ctx.font = tamanoTextoMedicion;
                               ctx.fillText("Batería (%)",10,40);
-                              ctx.font = "38px Arial";
+                              ctx.font = tamanoTextoNombreMedicion;
                               var tamanaTexto = ctx.measureText(data[i].BAT).width;
                               var ubicacionXTexto = (canvasMedicion.width/2) + (canvasMedicion.width/2 - tamanaTexto)/2;
                               ctx.fillText(data[i].BAT, ubicacionXTexto, 80);
                           }
-                          else if(j == 3){
+                          else if(j == 4){
                               id_med = id_med.concat("COND");
                               canvasMedicion.setAttribute("id", id_med);
                               comando = comando.concat("COND\")");
                               ctx.fillStyle = "orange";
                               ctx.fill();
                               ctx.fillStyle = "white";
-                              ctx.font = "30px Arial";
-                              ctx.fillText("Salinidad (mS/cm)",10,40);
-                              ctx.font = "38px Arial";
+                              ctx.font = tamanoTextoNombreMedicion;
+                              ctx.fillText("Salinidad (μS/cm)",10,40);
+                              ctx.font = tamanoTextoMedicion;
                               var tamanaTexto = ctx.measureText(data[i].COND).width;
                               var ubicacionXTexto = (canvasMedicion.width/2) + (canvasMedicion.width/2 - tamanaTexto)/2;
                               ctx.fillText(data[i].COND, ubicacionXTexto, 80);
+                          }
+                          else if(j == 1){
+                              id_med = id_med.concat("DOMGL");
+                              canvasMedicion.setAttribute("id", id_med);
+                              comando = comando.concat("DOMGL\")");
+                              ctx.fillStyle = "gray";
+                              ctx.fill();
+                              ctx.fillStyle = "white";
+                              ctx.font = tamanoTextoNombreMedicion;
+                              ctx.fillText("Oxigeno (mg/L)",10,40);
+                              ctx.font = tamanoTextoMedicion;
+                              var tamanaTexto = ctx.measureText(data[i].DOMGL).width;
+                              var ubicacionXTexto = (canvasMedicion.width/2) + (canvasMedicion.width/2 - tamanaTexto)/2;
+                              ctx.fillText(data[i].DOMGL, ubicacionXTexto, 80);
                           }
                           
                           //Agregamos el envento onClick al CANVAS para que el usuerio pueda hacer click

@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletContext;
@@ -167,7 +168,8 @@ public class ListaPiscinas extends HttpServlet {
 
                     oxigenoMgL = oxigenoMgL * factorCorrecionSalinidad;
 
-                    mota.put("DOMGL", oxigenoMgL);
+                    String oxigenoMgLStr = String.format(Locale.US, "%.1f", oxigenoMgL);
+                    mota.put("DOMGL", oxigenoMgLStr);
                     
                 }    
             }
